@@ -1,42 +1,62 @@
 # Task manager
 
-A small command line program to add, list, complete and delete tasks. Tasks are saved in
-`tasks.json`, so they are still there after you close the program.
+A to-do list for the terminal that remembers your tasks after you close it. Tasks are saved
+to `tasks.json` after every change and loaded when the program starts.
 
 ## How to run it
 
 You need Python 3.10 or newer. No extra packages are needed.
 
 ```
-python tasks.py add "Buy milk"
-python tasks.py add "Finish the Python project"
-python tasks.py list
-python tasks.py done 1
-python tasks.py delete 2
+python tasks.py
 ```
 
-Example output of `list`:
+Sample run:
 
 ```
-[x] 1: Buy milk
-[ ] 2: Finish the Python project
+1) Add  2) List  3) Done  4) Delete  5) Quit
+Choose: 1
+Task: Buy milk
+Added task 1.
+Choose: 1
+Task: Read a book
+Added task 2.
+Choose: 3
+Task number: 9
+There is no task 9.
+Choose: 3
+Task number: abc
+'abc' is not a number.
+Choose: 3
+Task number: 1
+Task 1 marked as done.
+Choose: 2
+1. [x] Buy milk
+2. [ ] Read a book
+Choose: 4
+Task number: 1
+Deleted 'Buy milk'.
+Choose: 2
+1. [ ] Read a book
+Choose: 5
+Bye!
 ```
 
 ## What happens with wrong input
 
-- `python tasks.py done abc` prints `Error: 'abc' is not a number...` instead of crashing.
-- An id that does not exist prints `Error: There is no task with id 9.`
-- If `tasks.json` is missing, the program starts with an empty list. If it is broken,
-  it prints a warning and starts with an empty list.
+- A menu choice other than 1 to 5 prints `Please choose 1 to 5.`
+- Letters or a number that is not a task print a message and go back to the menu.
+- If `tasks.json` is missing, the program starts with an empty list. If it is broken (for
+  example it contains `{oops`), it prints a warning and starts with an empty list.
+
+## How the code is organised
+
+All the code is in `tasks.py`. Each action has its own small function: `load_tasks`,
+`save_tasks`, `add_task`, `complete_task`, `delete_task`, `show_tasks` and
+`ask_task_number`. `main` only shows the menu and calls them.
 
 ## Tests
 
 ```
 python -m unittest test_tasks.py
 ```
-
-## How the code is organised
-
-All the code is in `tasks.py`. Each action has its own small function (`add_task`,
-`complete_task`, `delete_task`, `load_tasks`, `save_tasks`), and `main` only reads the
-command and calls them.
